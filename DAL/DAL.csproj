@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Scripts\CREATE do Banco de Dados.sql" />
     <Content Include="Scripts\Procedure CREATE.sql" />
     <Content Include="Scripts\Procedure DELETE.sql" />
     <Content Include="Scripts\Procedure LIST.sql" />
