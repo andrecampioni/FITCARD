@@ -49,6 +49,14 @@
     <Compile Include="Mensagem\Retorno.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\Procedure CREATE.sql" />
+    <Content Include="Scripts\Procedure DELETE.sql" />
+    <Content Include="Scripts\Procedure LIST.sql" />
+    <Content Include="Scripts\Procedure READ.sql" />
+    <Content Include="Scripts\Procedure UPDATE.sql" />
+    <Content Include="Scripts\Tabela Estabelecimentos.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
