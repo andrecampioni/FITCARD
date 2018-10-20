@@ -12,3 +12,4 @@ namespace DAL.Mensagem
         public string Mensagem { get; set; }
     }
 }
+
