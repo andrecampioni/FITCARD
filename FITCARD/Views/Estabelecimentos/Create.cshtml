@@ -1,0 +1,225 @@
+﻿@model FITCARD.Models.Estabelecimento
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/bootstrap-toggle.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="box-titulo">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-app">
+                    <i class="fa fa-save"></i> Salvar
+                </button>
+                <a class="btn btn-app" href="@Url.Action("Index", "Estabelecimentos")">
+                    <i class="fa  fa-mail-reply"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="box-titulo">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>Cadastro de Estabelecimento</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal">
+        <hr>
+                
+        <input id="IDEstabelecimento" name="IDEstabelecimento" type="hidden" value="0">
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Status">Status</label>
+            <div class="col-md-10">
+                <input id="chkAtivo" type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Ativo" data-off ="Inativo">
+                <input id="Status" name="Status" type="hidden" value="1">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="CNPJ">Data Cadastro</label>
+            <div class="col-md-2">
+                <input class="form-control text-box single-line" id="DataCadastro" name="DataCadastro" type="date" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="CNPJ">CNPJ</label>
+            <div class="col-md-2">
+                <input required class="form-control text-box single-line" id="CNPJ" name="CNPJ" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="RazaoSocial">Razao Social</label>
+            <div class="col-md-10">
+                <input required class="form-control text-box single-line" id="RazaoSocial" name="RazaoSocial" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="NomeFantasia">Nome Fantasia</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="NomeFantasia" name="NomeFantasia" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Email">E-mail</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="Email" name="Email" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Endereco">Endereco</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="Endereco" name="Endereco" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Cidade">Cidade</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="Cidade" name="Cidade" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Estado">Estado</label>
+            <div class="col-md-1">
+                <input class="form-control text-box single-line" id="Estado" name="Estado" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Telefone">Telefone</label>
+            <div class="col-md-3">
+                <input class="form-control text-box single-line" id="Telefone" name="Telefone" type="text">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Categoria">Categoria</label>
+            <div class="col-md-3">
+                <select class="form-control " id="Categoria" name="Categoria">
+                    <option value=""></option>
+                    @{
+                        foreach (var item in ViewBag.Categorias)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Agencia">Agencia</label>
+            <div class="col-md-1">
+                <input class="form-control text-box single-line" id="Agencia" name="Agencia" type="text" >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Conta">Conta</label>
+            <div class="col-md-2">
+                <input class="form-control text-box single-line" id="Conta" name="Conta" type="text" >
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/bootstrap-toggle.min.js"></script>
+    <script src="~/scripts/jquery.mask.min.js"></script>
+    <script src="~/scripts/validaCPF.js"></script>
+    <script>
+        $(function () {
+
+            if ('@TempData["Status"]' == '0') {
+                toastr.success('@TempData["Message"]');
+            }
+
+            if ('@TempData["Status"]' == '1') {
+                toastr.error('@TempData["Message"]')
+            }
+
+            $('form').validate({
+                rules: {
+                    CNPJ: {
+                        required: true,
+                        maxlength: 18,
+                        minlength: 14,
+                        cnpj: true
+                    },
+                    RazaoSocial: {
+                        required: true
+                    },
+                    Email: {
+                        email: true
+                    },
+                    Telefone: {
+                        required: function () {
+                            if ($('#Categoria').val() == "Supermercado")
+                                return true
+                            else
+                                return false
+                        }
+                    }
+                },
+                messages: {
+                    CNPJ: {
+                        required: "Campo CNPJ obrigatório",
+                        maxlength: "CNPJ deve conter no maximo 14 digitos",
+                        minlength: "CNPJ deve conter no minimo 14 digitos",
+                        cnpj: "Informe um CNPJ válido."
+                    },
+                    RazaoSocial: {
+                        required: "Campo Razão Social obrigatório."
+                    },
+                    Email: {
+                        email: "Digite um formato de email valido."
+                    },
+                    Telefone: {
+                        required: "Campo telefone obrigatório."
+                    }
+                }
+            });
+
+            $('#CNPJ').mask('00.000.000/0000-00', { placeholder: "  .   .   /    -  " });
+            $('#Telefone').mask('(00)0000-0000', { placeholder: "(  )    -    " });
+            $('#Agencia').mask('000-0', { placeholder: "   - " });
+            $('#Conta').mask('00.000-0', { placeholder: "  .   - " });
+
+           
+        });
+
+        $(document).on('change', '#chkAtivo', function () {
+            if ($(this).prop('checked') == true) {
+                $('#Status').attr('value', '1');
+            }
+            else {
+                $('#Status').attr('value', '0');
+            }
+        })
+
+        $("form").submit(function (e) {
+            $('#CNPJ').unmask();
+            $('#Telefone').unmask();
+            $('#Agencia').unmask();
+            $('#Conta').unmask();
+        });
+    </script>
+}

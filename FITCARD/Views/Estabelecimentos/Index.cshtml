@@ -1,0 +1,153 @@
+﻿@model IEnumerable<FITCARD.Models.Estabelecimento>
+
+@{
+    ViewBag.Title = "Listagem de Estabelecimento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="box-titulo">
+         <div class="row">
+             <div class="col-md-12">
+                 <a class="btn btn-app" href='@Url.Action("Create", "Estabelecimentos")'>
+                     <i class="glyphicon glyphicon-plus"></i> Novo
+                 </a>
+                 <a class="btn btn-app" id="btnEditar">
+                     <i class="glyphicon glyphicon-edit"></i> Editar
+                 </a>
+                 <a class="btn btn-app" id="btnVizualizar">
+                     <i class="glyphicon glyphicon-list-alt"></i> Vizualizar
+                 </a>
+                 <a class="btn btn-app" id="btnExcluir">
+                     <i class="glyphicon glyphicon-minus"></i> Excluir
+                 </a>
+             </div>
+         </div>
+     </div>
+     <div class="box-titulo">
+         <div class="row">
+             <div class="col-sm-4">
+                 <h2>Listagem de Estabelecimento</h2>
+             </div>
+         </div>
+     </div>
+     <table id="tblEstab" class="table table-striped table-hover">
+         <thead>
+             <tr>
+                 <th>#</th>
+                 <th>CNPJ</th>
+                 <th>Nome Fantasia</th>
+                 <th>Cidade</th>
+                 <th>Estado</th>
+                 <th>Data Cadastro</th>
+                 <th>Status</th>
+             </tr>
+         </thead>
+         <tbody>
+             @{
+                 if (Model != null)
+                 {
+                     foreach (var item in Model)
+                     {
+                         <tr>
+                             <td>@item.IDEstabelecimento</td>
+                             <td>@Convert.ToUInt64(item.CNPJ).ToString(@"00\.000\.000\/0000\-00")</td>
+                             <td>@item.NomeFantasia</td>
+                             <td>@item.Cidade</td>
+                             <td>@item.Estado</td>
+                             <td>@item.DataCadastro.ToShortDateString()</td>
+                             <td>
+                                 @{
+                                     if (@item.Status == 1)
+                                     {
+                                         <span class="status text-success">&bull;</span> @: Ativo
+                                     }
+                                     else
+                                     {
+                                         <span class="status text-danger">&bull;</span> @: Inativo
+                                     }
+                                 }
+
+                             </td>
+                         </tr>
+                      }
+                  }
+
+             }
+            
+         </tbody>
+     </table>
+
+@section scripts{
+<script>
+    var ID;
+    $(document).ready(function () {
+
+        if ('@TempData["Status"]' == '0') {
+            toastr.success('@TempData["Message"]');
+        }
+
+        if ('@TempData["Status"]' == '1') {
+            toastr.error('@TempData["Message"]')
+        }
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#tblEstab').DataTable({
+            "oLanguage": {
+                "sLengthMenu": "Exibir _MENU_  registros por pagina.",
+                "sZeroRecords": "Nenhum registro encontrado.",
+                "sInfo": "Exibindo _START_ até _END_ de _TOTAL_ registros.",
+                "sInfoEmpty": "Exibindo 0 até 0 de 0 registros.",
+                "sInfoFiltered": "(Filtrado de um total de _MAX_ registros. )",
+                "sSearch": "Localizar: ",
+                "sLoadingRecords": "Carregando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior"
+                }
+            },
+            "select": true
+
+        });
+
+        $('#tblEstab').on('click', 'tbody tr', function () {
+
+            $("#tblEstab tbody tr").removeClass('selecionado');
+            $(this).addClass('selecionado');
+
+            ID = $(this).closest('tr').find('td').eq(0).text();
+
+        });
+
+        $('#btnExcluir').click(function () {
+            if (ID != null) {
+                window.open('@Url.Action("Delete", "Estabelecimentos")/' + $.trim(ID), '_self');
+            }
+            else {
+                toastr.error("Estabelecimento não selecionado.");
+            }
+        });
+
+        $('#btnEditar').click(function () {
+            if (ID != null) {
+                window.open('@Url.Action("Edit", "Estabelecimentos")/' + $.trim(ID), '_self');
+            }
+            else {
+                toastr.error("Estabelecimento não selecionado.");
+            }
+        })
+
+        $('#btnVizualizar').click(function () {
+            if (ID != null) {
+                window.open('@Url.Action("Details", "Estabelecimentos")/' + $.trim(ID), '_self');
+            }
+            else {
+                toastr.error("Estabelecimento não selecionado.");
+            }
+        })
+        
+    });
+</script>
+}                      		                            
